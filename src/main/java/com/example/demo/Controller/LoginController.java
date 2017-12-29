@@ -1,16 +1,18 @@
-package com.example.demo;
+package com.example.demo.Controller;
 
+import com.example.demo.Properties.GirlProperties;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by panbingcan on 2017/12/28.
  */
+import java.text.*;
+import java.util.Date;
+
 @RestController
 @RequestMapping("login")
-public class Login {
+public class LoginController {
 
     //    @Value("${cupSize}")
 //    private String cupSize;
@@ -20,6 +22,11 @@ public class Login {
 //    private String content;
     @Autowired
     public GirlProperties girlProperties;
+
+    @GetMapping("getTime")
+    public String getTime() {
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+    }
 
     @GetMapping("get/{id}")
     public String Get(@PathVariable("id") Integer id) {

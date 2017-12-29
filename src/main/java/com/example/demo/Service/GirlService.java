@@ -1,7 +1,8 @@
-package com.example.demo;
+package com.example.demo.Service;
 
+import com.example.demo.Repository.GirlRepository;
+import com.example.demo.domain.Girl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.annotation.Transient;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;

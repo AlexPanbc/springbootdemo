@@ -1,15 +1,26 @@
-package com.example.demo;
+package com.example.demo.domain;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+
+import javax.persistence.*;
 
 /**
  * Created by panbingcan on 2017/12/28.
  */
-@Component
-@ConfigurationProperties(prefix = "girl")
-public class GirlProperties {
+@Entity
+public class Girl {
+    @Id
+    @GeneratedValue
+    private  Integer id;
     private String cupSize;
+    private Integer age;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getCupSize() {
         return cupSize;
@@ -27,5 +38,6 @@ public class GirlProperties {
         this.age = age;
     }
 
-    private Integer age;
+    public Girl() {
+    }
 }

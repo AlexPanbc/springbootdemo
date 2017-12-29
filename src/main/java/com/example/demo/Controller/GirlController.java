@@ -1,5 +1,8 @@
-package com.example.demo;
+package com.example.demo.Controller;
 
+import com.example.demo.Repository.GirlRepository;
+import com.example.demo.Service.GirlService;
+import com.example.demo.domain.Girl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,6 +11,7 @@ import java.util.List;
 /**
  * Created by panbingcan on 2017/12/28.
  */
+@RequestMapping(value = "girl")
 @RestController
 public class GirlController {
 
@@ -54,19 +58,23 @@ public class GirlController {
 
     /**
      * 更新
-     *
-     * @param id
-     * @param cupSize
-     * @param age
+     * body提交需要选择 raw 后面是application/json
      * @return
      */
+//    @PutMapping(value = "/update/{id}")
+//    public Girl girlUpdate(@PathVariable("id") Integer id, @RequestParam("cupSize") String cupSize, @RequestParam("age") Integer age) {
+    @PutMapping(value = "/update")
+    public Girl girlUpdate(@RequestBody Girl girl) {
+        return girlRepository.save(girl);
+    }
+
     @PutMapping(value = "/update/{id}")
     public Girl girlUpdate(@PathVariable("id") Integer id, @RequestParam("cupSize") String cupSize, @RequestParam("age") Integer age) {
-        Girl girl = new Girl();
-        girl.setId(id);
-        girl.setAge(age);
-        girl.setCupSize(cupSize);
-        return girlRepository.save(girl);
+        Girl g = new Girl();
+        g.setId(id);
+        g.setCupSize(cupSize);
+        g.setAge(age);
+        return girlRepository.save(g);
     }
 
     /**
