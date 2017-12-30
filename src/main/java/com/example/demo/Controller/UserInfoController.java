@@ -1,13 +1,20 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Repository.UserInfoRepository;
+import com.example.demo.Service.UserInfoService;
+import com.example.demo.domain.Result;
 import com.example.demo.domain.UserInfo;
+import com.example.demo.utils.ResultUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import sun.net.www.http.HttpClient;
 
+import javax.persistence.Transient;
+import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 
@@ -18,45 +25,89 @@ import java.util.List;
 @RestController
 public class UserInfoController {
     @Autowired
+    private UserInfoService userInfoService;
+    @Autowired
     private UserInfoRepository userInfoRepository;
+    private final static Logger logger = LoggerFactory.getLogger(UserInfoController.class);
 
     @GetMapping("getAll")
-    public List<UserInfo> getAll() {
-        return userInfoRepository.findAll();
+    public Result<List<UserInfo>> getAll() {
+        logger.info("getAll方法里头");
+        return ResultUtil.success(userInfoRepository.findAll());
     }
 
     @GetMapping("get/{id}")
-    public UserInfo get(@PathVariable("id") Integer id) {
-        return userInfoRepository.findOne(id);
+    public Result<UserInfo> get(@PathVariable("id") Integer id) {
+        return ResultUtil.success(userInfoRepository.findOne(id));
     }
 
     @PostMapping("add")
-    public UserInfo add(@RequestBody UserInfo userInfo) {
+    public Result<UserInfo> add(@Valid @RequestBody UserInfo userInfo, BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            return ResultUtil.error(1, bindingResult.getFieldError().getDefaultMessage());
         userInfo.setCreateTime(new Date());
-        return userInfoRepository.save(userInfo);
+        return ResultUtil.success(userInfoRepository.save(userInfo));
+    }
+
+    /**
+     * 未满18岁禁止入内 验证系统异常信息
+     *localhost:8080/userInfo/addExecptoin
+     * {
+     "age": 12,
+     "name": "中3文",
+     "cupSize": "F",
+     "height": 172,
+     "weight": 50,
+     "img": "http://www.baidu.com"
+     }
+     目的达到
+     {
+     "code": -1,
+     "msg": "未知错误",
+     "data": null
+     }
+     * @param userInfo
+     * @param bindingResult
+     * @return
+     */
+    @PostMapping("addExecptoin")
+    public Result<UserInfo> addExecptoin(@Valid @RequestBody UserInfo userInfo, BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            return null;
+        //return ResultUtil.error(1, bindingResult.getFieldError().getDefaultMessage());
+        userInfo.setCreateTime(new Date());
+        return ResultUtil.success(userInfoRepository.save(userInfo));
     }
 
     @PutMapping("update")
-    public UserInfo update(@RequestBody UserInfo userInfo) {
+    public Result<UserInfo> update(@Valid @RequestBody UserInfo userInfo, BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            return ResultUtil.error(1, bindingResult.getFieldError().getDefaultMessage());
         UserInfo u = userInfoRepository.findOne(userInfo.getId());
         userInfo.setCreateTime(u.getCreateTime());
-        return userInfoRepository.save(userInfo);
+        return ResultUtil.success(userInfoRepository.save(userInfo));
     }
 
-    //
-//    @GetMapping("findByAge/{age}")
-//    public List<UserInfo> findByAge(@PathVariable("age") Integer age) {
-//        return userInfoRepository.findByAge(age);
-//    }
+    @GetMapping("findByCupSize")
+    public Result<List<UserInfo>> FindByCupSize(@RequestParam("cupSize") String cupSize) {
+        return ResultUtil.success(userInfoRepository.findByCupSize(cupSize));
+    }
+
     @GetMapping(value = "/get/age/{age}")
-    public List<UserInfo> GirlListByAge(@PathVariable("age") Integer age) {
-        return userInfoRepository.findByAge(age);
+    public Result<List<UserInfo>> GirlListByAge(@PathVariable("age") Integer age) {
+        return ResultUtil.success(userInfoRepository.findByAge(age));
     }
 
     @DeleteMapping("delete/{id}")
-    public HttpStatus delete(@PathVariable("id") Integer id) {
+    public Result delete(@PathVariable("id") Integer id) {
         userInfoRepository.delete(id);
-        return HttpStatus.OK;
+        return ResultUtil.success();
+    }
+
+    @GetMapping(value = "getAge/{id}")
+    public void getAge(@PathVariable("id") Integer id) throws Exception {
+        userInfoService.getAge(id);
+
     }
 
 
