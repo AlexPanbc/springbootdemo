@@ -18,9 +18,9 @@ public class UserInfoService {
     {
         UserInfo userInfo =userInfoRepository.findOne(id);
         Integer age = userInfo.getAge();
-        if(age<10)
+        if(age<=20)
             throw new UserInfoException(ResultEnum.PRIMARY_SCHOOL);
-        if(age>10 && age <16)
+        if(age>20 && age <30)
             throw  new UserInfoException(ResultEnum.Middle_SCHOOL);
     }
 }

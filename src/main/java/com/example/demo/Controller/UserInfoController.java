@@ -51,21 +51,22 @@ public class UserInfoController {
 
     /**
      * 未满18岁禁止入内 验证系统异常信息
-     *localhost:8080/userInfo/addExecptoin
+     * localhost:8080/userInfo/addExecptoin
      * {
-     "age": 12,
-     "name": "中3文",
-     "cupSize": "F",
-     "height": 172,
-     "weight": 50,
-     "img": "http://www.baidu.com"
-     }
-     目的达到
-     {
-     "code": -1,
-     "msg": "未知错误",
-     "data": null
-     }
+     * "age": 12,
+     * "name": "中3文",
+     * "cupSize": "F",
+     * "height": 172,
+     * "weight": 50,
+     * "img": "http://www.baidu.com"
+     * }
+     * 目的达到
+     * {
+     * "code": -1,
+     * "msg": "未知错误",
+     * "data": null
+     * }
+     *
      * @param userInfo
      * @param bindingResult
      * @return
@@ -73,8 +74,19 @@ public class UserInfoController {
     @PostMapping("addExecptoin")
     public Result<UserInfo> addExecptoin(@Valid @RequestBody UserInfo userInfo, BindingResult bindingResult) {
         if (bindingResult.hasErrors())
-            return null;
-        //return ResultUtil.error(1, bindingResult.getFieldError().getDefaultMessage());
+        /**
+         *  {
+         "id": 2,
+         "age": 17,
+         "name": "测试异常数据",
+         "cupSize": "F",
+         "height": 170,
+         "weight": 51,
+         "img": "http://www.baidu.com"
+         }
+         */
+            // return null;//系统异常实例 localhost:8080/userInfo/addExecptoin
+            return ResultUtil.error(1, bindingResult.getFieldError().getDefaultMessage());
         userInfo.setCreateTime(new Date());
         return ResultUtil.success(userInfoRepository.save(userInfo));
     }
@@ -107,8 +119,5 @@ public class UserInfoController {
     @GetMapping(value = "getAge/{id}")
     public void getAge(@PathVariable("id") Integer id) throws Exception {
         userInfoService.getAge(id);
-
     }
-
-
 }

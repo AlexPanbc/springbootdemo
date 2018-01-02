@@ -19,7 +19,8 @@ public class HttpAspect {
 
     private final static Logger logger = LoggerFactory.getLogger(HttpAspect.class);
 
-    @Pointcut("execution(public * com.example.demo.Controller..*.*(..))")
+    //    @Pointcut("execution(public * com.example.demo.Controller.UserInfoController.*(..))")//里面共有方法
+    @Pointcut("execution(public * com.example.demo.Controller..*.*(..))")//所有controller公有方法
     public void log() {
     }
 
@@ -48,6 +49,9 @@ public class HttpAspect {
 
     @AfterReturning(returning = "object", pointcut = "log()")
     public void doAfterReturning(Object object) {
-        logger.info("response={}", object.toString());
+        if (object != null && object != "")
+            logger.info("response={}", object.toString());
+        else
+            logger.info("response={}", "不返回值");
     }
 }
