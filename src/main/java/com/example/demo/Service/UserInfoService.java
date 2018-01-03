@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.*;
@@ -135,13 +136,19 @@ public class UserInfoService {
             @Override
             public Predicate toPredicate(Root<UserInfo> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> list = new ArrayList<Predicate>();
-                list.add(criteriaBuilder.equal(root.get("cupsize").as(String.class), userInfoEntityPage.getCupSize()));
+                list.add(criteriaBuilder.equal(root.get("cupSize").as(String.class), userInfoEntityPage.getCupSize()));
                 list.add(criteriaBuilder.gt(root.get("age").as(Integer.class), userInfoEntityPage.getAge()));//gt大于
-                list.add(criteriaBuilder.like(root.get("name").as(String.class), userInfoEntityPage.getName()));
+                list.add(criteriaBuilder.like(root.get("name").as(String.class), "%" + userInfoEntityPage.getName() + "%"));
                 Predicate[] predicate = new Predicate[list.size()];
                 return criteriaBuilder.and(list.toArray(predicate));
+//                Predicate p1 = criteriaBuilder.equal(root.get("cupSize").as(String.class), userInfoEntityPage.getCupSize());
+//                Predicate p2 = criteriaBuilder.gt(root.get("age").as(Integer.class), userInfoEntityPage.getAge());
+//                Predicate p3 = criteriaBuilder.like(root.get("name").as(String.class), "%" + userInfoEntityPage.getName() + "%");
+//                criteriaQuery.where(criteriaBuilder.and(p1, p2), criteriaBuilder.or(p3));
+//                return criteriaQuery.getRestriction();
             }
         };
         return userInfoRepository.findAll(specification, new PageRequest(page, size, Sort.Direction.DESC, "id"));
     }
+
 }

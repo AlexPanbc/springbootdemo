@@ -149,8 +149,29 @@ public class UserInfoController {
     }
 
     @PostMapping(value = "getPageParam/{page}/{size}")
-    public Result<UserInfo> getPageParam(@PathVariable("page") Integer page, @PathVariable("size") Integer size, @Param("uep") UserInfoEntityPage uep) throws Exception {
+    public Result<UserInfo> getPageParam(@PathVariable("page") Integer page, @PathVariable("size") Integer size, @RequestBody UserInfoEntityPage uep) throws Exception {
         return ResultUtil.success(userInfoService.getPageParam(page, size, uep));
     }
+
+    @GetMapping(value = "diyGetUserInfoByMaxId")
+    public Result<UserInfo> diyGetUserInfoByMaxId() throws Exception {
+        return ResultUtil.success(userInfoRepository.diyGetUserInfoByMaxId());
+    }
+
+    @GetMapping(value = "diyGetUserInfoByNameAndAge/{age}")
+    public Result<UserInfo> diyGetUserInfoByNameAndAge(@PathVariable("age") Integer age, @PathParam("name") String name) throws Exception {
+        return ResultUtil.success(userInfoRepository.diyGetUserInfoByNameAndAge(name, age));
+    }
+
+    @GetMapping(value = "diyGetUserInfoByNameAndAge2/{age}")
+    public Result<UserInfo> diyGetUserInfoByNameAndAge2(@PathVariable("age") Integer age, @PathParam("name") String name) throws Exception {
+        return ResultUtil.success(userInfoRepository.diyGetUserInfoByNameAndAge2(name, age));
+    }
+
+    @GetMapping(value = "diyGetUserInfoCount")
+    public Result<UserInfo> diyGetUserInfoCount() throws Exception {
+        return ResultUtil.success(userInfoRepository.diyGetUserInfoCount());
+    }
+
 
 }

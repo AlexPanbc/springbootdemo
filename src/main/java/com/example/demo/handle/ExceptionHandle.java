@@ -1,5 +1,6 @@
 package com.example.demo.handle;
 
+import com.alibaba.fastjson.JSON;
 import com.example.demo.domain.Result;
 import com.example.demo.execption.UserInfoException;
 import com.example.demo.utils.ResultUtil;
@@ -24,6 +25,6 @@ public class ExceptionHandle {
             return ResultUtil.error(userInfoException.getCode(), userInfoException.getMessage());
         }
         logger.error("【系统异常】{}", exception);
-        return ResultUtil.error(-1, "未知错误:" + exception);// JSONObject.toJSONString(exception)
+        return ResultUtil.error(-1, "未知错误:" + JSON.toJSONString(exception));// JSONObject.toJSONString(exception)
     }
 }
