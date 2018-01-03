@@ -24,6 +24,6 @@ public class ExceptionHandle {
             return ResultUtil.error(userInfoException.getCode(), userInfoException.getMessage());
         }
         logger.error("【系统异常】{}", exception);
-        return ResultUtil.error(-1, "未知错误");
+        return ResultUtil.error(-1, "未知错误:" + exception);// JSONObject.toJSONString(exception)
     }
 }
