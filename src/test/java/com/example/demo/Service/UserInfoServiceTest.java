@@ -1,6 +1,7 @@
 package com.example.demo.Service;
 
 import com.alibaba.fastjson.JSON;
+import com.example.demo.domain.Entity.UserInfoEntityPage;
 import com.example.demo.domain.UserInfo;
 import org.junit.Assert;
 import org.junit.Test;
@@ -23,12 +24,12 @@ public class UserInfoServiceTest {
 
     @Test
     public void getAge() throws Exception {
-        userInfoService.getAge(10);
+        userInfoService.getAge(50);
     }
 
     @Test
     public void addList() throws Exception {
-
+        userInfoService.addList();
     }
 
     @Test
@@ -39,12 +40,18 @@ public class UserInfoServiceTest {
 
     @Test
     public void getPageSort() throws Exception {
-
+        Page<UserInfo> page = userInfoService.getPageSort(0, 2, 100, "F");
+        System.out.println("结果：" + JSON.toJSONString(page));
     }
 
     @Test
     public void getPageParam() throws Exception {
-
+        UserInfoEntityPage u = new UserInfoEntityPage();
+        u.setAge(20);
+        u.setName("test11");
+        u.setCupSize("F");
+        Page<UserInfo> page = userInfoService.getPageParam(0, 2, u);
+        System.out.println("结果：" + JSON.toJSONString(page));
     }
 
 }

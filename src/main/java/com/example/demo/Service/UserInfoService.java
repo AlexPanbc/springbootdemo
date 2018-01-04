@@ -42,7 +42,7 @@ public class UserInfoService {
             throw new UserInfoException(ResultEnum.PRIMARY_SCHOOL);
         if (age > 20 && age < 30)
             throw new UserInfoException(ResultEnum.Middle_SCHOOL);
-        if (age >= 30)
+        if (40 > age && age >= 30)
             throw new UserInfoException(ResultEnum.SUCCESS);
         if (age > 100)
             throw new UserInfoException(ResultEnum.UNKONW_ERROR);
