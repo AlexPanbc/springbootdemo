@@ -1,5 +1,6 @@
 package com.example.demo.aspect;
 
+import com.alibaba.fastjson.JSON;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
@@ -50,7 +51,7 @@ public class HttpAspect {
     @AfterReturning(returning = "object", pointcut = "log()")
     public void doAfterReturning(Object object) {
         if (object != null && object != "")
-            logger.info("response={}", object.toString());
+            logger.info("response={}", JSON.toJSONString(object));
         else
             logger.info("response={}", "不返回值");
     }

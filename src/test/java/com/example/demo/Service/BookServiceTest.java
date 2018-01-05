@@ -20,7 +20,7 @@ public class BookServiceTest {
 
     @Test
     public void getBookPage() throws Exception {
-        bookService.getBookPage(0, 3);
+        System.out.println(JSON.toJSONString(bookService.getBookPage(0, 3)));
     }
 
 }

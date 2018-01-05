@@ -1,5 +1,8 @@
 package com.example.demo.domain.Mapping;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -18,8 +21,8 @@ public class Book implements Serializable {
     private Integer id;
 
     private String name;
-
-    @ManyToMany(cascade = CascadeType.ALL)
+    @JsonManagedReference//@JsonBackReference//禁止加载外联实体
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "BOOK_AUTHOR",
             joinColumns = {@JoinColumn(name = "BOOK_ID", referencedColumnName = "ID")},
             inverseJoinColumns = {@JoinColumn(name = "AUTHOR_ID", referencedColumnName = "ID")})

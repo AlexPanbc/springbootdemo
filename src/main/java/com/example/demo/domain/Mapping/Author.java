@@ -1,6 +1,9 @@
 package com.example.demo.domain.Mapping;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -19,8 +22,10 @@ public class Author implements Serializable {
     private Integer id;
 
     private String name;
-    @JsonBackReference//禁止无限地柜
-    @ManyToMany(mappedBy = "authors")
+    //@JsonIgnore//@JsonManagedReference//
+    @JsonBackReference////禁止无限递归加载
+    //fetch = FetchType.EAGER
+    @ManyToMany(mappedBy = "authors", fetch = FetchType.EAGER)
     private Set<Book> books;
 
     public Author() {
