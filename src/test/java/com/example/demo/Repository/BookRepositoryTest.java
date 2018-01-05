@@ -1,20 +1,17 @@
 package com.example.demo.Repository;
 
 import com.alibaba.fastjson.JSON;
+import com.example.demo.Service.BookService;
 import com.example.demo.domain.Mapping.Author;
 import com.example.demo.domain.Mapping.Book;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
 
-import static org.junit.Assert.*;
 
 /**
  * Created by panbingcan on 2018/1/4.
@@ -71,6 +68,8 @@ public class BookRepositoryTest {
         System.out.println(authorRepository.findAll().size());
         System.out.println(authorRepository.findAll().size());
     }
+
+
 
     @Test
     public void findByName() {

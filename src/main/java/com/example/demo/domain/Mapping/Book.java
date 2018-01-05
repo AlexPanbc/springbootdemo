@@ -1,6 +1,7 @@
 package com.example.demo.domain.Mapping;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,7 +10,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "book")
-public class Book {
+public class Book implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -19,9 +20,9 @@ public class Book {
     private String name;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "BOOK_AUTHOR", joinColumns = {
-            @JoinColumn(name = "BOOK_ID", referencedColumnName = "ID")}, inverseJoinColumns = {
-            @JoinColumn(name = "AUTHOR_ID", referencedColumnName = "ID")})
+    @JoinTable(name = "BOOK_AUTHOR",
+            joinColumns = {@JoinColumn(name = "BOOK_ID", referencedColumnName = "ID")},
+            inverseJoinColumns = {@JoinColumn(name = "AUTHOR_ID", referencedColumnName = "ID")})
     private Set<Author> authors;
 
     public Book() {

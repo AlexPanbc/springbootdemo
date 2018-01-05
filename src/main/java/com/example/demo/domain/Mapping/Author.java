@@ -1,6 +1,9 @@
 package com.example.demo.domain.Mapping;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -8,7 +11,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "Author")
-public class Author {
+public class Author implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -16,7 +19,7 @@ public class Author {
     private Integer id;
 
     private String name;
-
+    @JsonBackReference//禁止无限地柜
     @ManyToMany(mappedBy = "authors")
     private Set<Book> books;
 
